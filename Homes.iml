@@ -8,6 +8,8 @@
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Unnamed" level="project" />
+    <orderEntry type="library" name="Bukkit" level="application" />
+    <orderEntry type="library" name="PermissoinsEx" level="application" />
   </component>
 </module>
 

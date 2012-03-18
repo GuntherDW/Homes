@@ -1,9 +1,26 @@
+/*
+ * Copyright (c) 2012 GuntherDW
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
 package com.guntherdw.bukkit.Homes;
 import com.guntherdw.bukkit.Homes.Commands.iCommand;
 import com.guntherdw.bukkit.Homes.DataSource.DataSource;
 import com.guntherdw.bukkit.Homes.DataSource.Sources.MySQL;
 import com.guntherdw.bukkit.tweakcraft.TweakcraftUtils;
-import com.nijikokun.bukkit.Permissions.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,6 +28,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import ru.tehkode.permissions.PermissionManager;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +40,7 @@ import java.util.logging.Logger;
 
 public class Homes extends JavaPlugin {
     private final static Logger log = Logger.getLogger("Minecraft");
-    public static Permissions perm = null;
+    public static PermissionManager perm = null;
     private CommandHandler chandler = new CommandHandler(this);
     public Map<String, Home> homes;
     public List<SaveHome> savehomes;
@@ -35,7 +55,9 @@ public class Homes extends JavaPlugin {
 		if(rt == null) {
 			int delta = Integer.MAX_VALUE;
 			for(SaveHome sh : savehomes) {
-				if(sh.getName().equalsIgnoreCase(playername) && sh.getDescription().toLowerCase().contains(homename) && Math.abs(sh.getDescription().length() - homename.length()) < delta) {
+				if(sh.getName().equalsIgnoreCase(playername)
+                && sh.getDescription().toLowerCase().contains(homename)
+                && Math.abs(sh.getDescription().length() - homename.length()) < delta) {
 					rt = sh;
 					delta = Math.abs(sh.getDescription().length() - homename.length());
 					if(delta == 0) break;
@@ -80,8 +102,13 @@ public class Homes extends JavaPlugin {
         this.ds = new MySQL(this);
         this.reloadHomes();
         this.reloadSavehomes();
-        usePermissions = this.getConfiguration().getBoolean("usePermissions", false);
-        if(usePermissions) this.setupPermissions();
+        usePermissions = this.getConfig().getBoolean("usePermissions", false);
+        if(usePermissions) {
+            log.info("["+pdfFile.getName()+"] Using PermissionsEx for permission.");
+            this.setupPermissions();
+        } else {
+            log.info("["+pdfFile.getName()+"] Using DinnerPerms for permission.");
+        }
         this.setupTCUtils();
         log.info("["+pdfFile.getName() + "] "+pdfFile.getName()+" version " + pdfFile.getVersion() + " is enabled!");
     }
@@ -92,12 +119,10 @@ public class Homes extends JavaPlugin {
 
     public void setupPermissions() {
         if(this.usePermissions) {
-            Plugin plugin = this.getServer().getPluginManager().getPlugin("Permissions");
+            Plugin plugin = this.getServer().getPluginManager().getPlugin("PermissionsEx");
 
             if (perm == null) {
-                if (plugin != null) {
-                    perm = (Permissions) plugin;
-                }
+                perm = PermissionsEx.getPermissionManager();
             }
         }
     }
@@ -141,11 +166,14 @@ public class Homes extends JavaPlugin {
 
     public boolean checkFull(Player player, String permNode) {
         
-        if (usePermissions && perm == null) {
-            return true;
-        } else {
+        if(!usePermissions) {
             return player.isOp() ||
-                    ((usePermissions && perm.getHandler().has(player, permNode)) || player.hasPermission(permNode));
+                    player.hasPermission(permNode);
+        } else if(usePermissions && perm!=null) {
+            return player.isOp() ||
+                    perm.has(player, permNode);
+        } else {
+            return true;
         }
     }
 

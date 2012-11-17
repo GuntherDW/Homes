@@ -52,7 +52,7 @@ public class CommandHomesGoto implements iCommand {
         if(searchhome!=null) {
 
             sender.sendMessage(ChatColor.GREEN+"Teleporting you to Home '"+searchhome.getDescription()+"'!");
-            plugin.getLogger().info(""+player.getName()+" teleported to home with name "+searchhome.getDescription());
+            plugin.getLogger().info(player.getName()+" teleported to home with name "+searchhome.getDescription());
             if(plugin.getTweakcraftutils()!= null) {
                 if(!plugin.savehomesTCUtils.contains(player.getName())) {
                     plugin.getTweakcraftutils().getTelehistory().addHistory(player.getName(), player.getLocation());

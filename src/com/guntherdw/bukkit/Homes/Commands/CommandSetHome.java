@@ -44,7 +44,7 @@ public class CommandSetHome implements iCommand {
                 // player.sendMessage("INTO homes (x,y,z,rotX,rotY,world,name) VALUES (?,?,?,?,?,?,?)");
                 player.sendMessage(ChatColor.GREEN + "Successfully set your home!");
                 plugin.getHomesMap().put(player.getName().toLowerCase(), home);
-                plugin.getLogger().info(""+player.getName()+" set his home at location world:"+home.getWorld()+" x:"+home.getX()+" y:"+home.getY()+" z:"+home.getZ());
+                plugin.getLogger().info(player.getName()+" set his home at location world:"+home.getWorld()+" x:"+home.getX()+" y:"+home.getY()+" z:"+home.getZ());
             } else {
                 player.sendMessage("You don't have permission to use /sethome!");
             }

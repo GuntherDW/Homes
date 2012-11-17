@@ -310,7 +310,7 @@ public class MySQL extends DataSource {
             st.setString(8, savehome.getDescription());
             st.executeUpdate();
 
-            plugin.getLogger().info(""+player+" saved a home! '"+savehome.getDescription()+"'");
+            plugin.getLogger().info(player+" saved a home! '"+savehome.getDescription()+"'");
         } catch (Exception e) {
             plugin.getLogger().info("homes: Error saving '" + savehome.getDescription() + "' of player '" + player + "' error: ");
             e.printStackTrace();

@@ -61,13 +61,13 @@ public class CommandHome implements iCommand {
                             plugin.getTweakcraftutils().getTelehistory().addHistory(player.getName(), player.getLocation());
                         }
                     }
-                    plugin.getLogger().info(""+player.getName()+" went home!");
+                    plugin.getLogger().info(player.getName()+" went home!");
                     player.teleport(loc);
                 } else {
                     if(bo)
                     {
                         player.sendMessage(ChatColor.DARK_AQUA + "Can't find that player's home!");
-                        plugin.getLogger().info(""+player.getName()+" tried to go to "+playername+"'s home!");
+                        plugin.getLogger().info(player.getName()+" tried to go to "+playername+"'s home!");
                     }
                     else{
                         plugin.getLogger().info("Couldn't find "+player.getName()+"'s home!");

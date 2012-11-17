@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Homes extends JavaPlugin {
-    private final static Logger log = Logger.getLogger("Minecraft");
     public static PermissionManager perm = null;
     private CommandHandler chandler = new CommandHandler(this);
     public Map<String, Home> homes;
@@ -76,24 +75,22 @@ public class Homes extends JavaPlugin {
         }
         return null;
     }
-    
+
+    @Override
     public void onDisable() {
-        PluginDescriptionFile pdfFile = this.getDescription();
-        log.info("["+pdfFile.getName() + "] Homes version " + pdfFile.getVersion() + " is disabled!");
+        //PluginDescriptionFile pdfFile = this.getDescription();
+        getLogger().info("Homes version " + pdfFile.getVersion() + " is disabled!");
     }
 
     public DataSource getDataSource() {
         return ds;
     }
 
-    public Logger getLogger() {
-        return log;
-    }
-
     public TweakcraftUtils getTweakcraftutils() {
         return tweakcraftutils;
     }
 
+    @Override
     public void onEnable() {
         savehomesTCUtils = new ArrayList<String>();
         pdfFile = this.getDescription();
@@ -104,13 +101,13 @@ public class Homes extends JavaPlugin {
         this.reloadSavehomes();
         usePermissions = this.getConfig().getBoolean("usePermissions", false);
         if(usePermissions) {
-            log.info("["+pdfFile.getName()+"] Using PermissionsEx for permission.");
+            getLogger().info("Using PermissionsEx for permission.");
             this.setupPermissions();
         } else {
-            log.info("["+pdfFile.getName()+"] Using DinnerPerms for permission.");
+            getLogger().info("Using DinnerPerms for permission.");
         }
         this.setupTCUtils();
-        log.info("["+pdfFile.getName() + "] "+pdfFile.getName()+" version " + pdfFile.getVersion() + " is enabled!");
+        getLogger().info(pdfFile.getName()+" version " + pdfFile.getVersion() + " is enabled!");
     }
 
     public Map<String, Home> getHomesMap() {
@@ -142,7 +139,7 @@ public class Homes extends JavaPlugin {
         homes = new HashMap<String, Home>();
 
         homes = this.ds.getHomesMap();
-        log.info("["+pdfFile.getName() + "] Loaded " + homes.size() + " homes!");
+        getLogger().info("[Loaded " + homes.size() + " homes!");
     }
 
     public void reloadHomes(Player p) {
@@ -150,13 +147,13 @@ public class Homes extends JavaPlugin {
         if(h!=null) {
             homes.put(h.getName().toLowerCase(), h);
         }
-        log.info("["+pdfFile.getName() + "] Loaded " + p.getName() +"'s new home!");
+        getLogger().info("Loaded " + p.getName() +"'s new home!");
 
     }
 
     public void reloadSavehomes() {
         savehomes = this.ds.getSaveHomes();
-        log.info("["+pdfFile.getName() + "] Loaded " + (savehomes!=null?savehomes.size():"0") + " savehomes!");
+        getLogger().info("Loaded " + (savehomes!=null?savehomes.size():"0") + " savehomes!");
     }
 
 

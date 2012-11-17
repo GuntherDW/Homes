@@ -52,7 +52,7 @@ public class MySQL extends DataSource {
             plugin.getConfig().set("password", "database-password");
         } catch (Throwable e)
         {
-            plugin.getLogger().severe("[Homes] There was an exception while we were saving the config, be sure to doublecheck!");
+            plugin.getLogger().severe("There was an exception while we were saving the config, be sure to doublecheck!");
         }
     }
 
@@ -91,7 +91,7 @@ public class MySQL extends DataSource {
         else if(homeObject instanceof Home)
             this.addHome(((Home) homeObject).getName(), ((Home) homeObject));
         else
-            plugin.getLogger().warning("[Homes] saveHome tried to do something that was not supported!");
+            plugin.getLogger().warning("saveHome tried to do something that was not supported!");
     }
 
     @Override
@@ -112,7 +112,7 @@ public class MySQL extends DataSource {
                 plugin.getHomesMap().put(rs.getString(1).toLowerCase(), h);
                 count++;
             }
-            // plugin.getLogger().info("[Homes] Loaded " + count + " homes!");
+            // plugin.getLogger().info("Loaded " + count + " homes!");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class MySQL extends DataSource {
                         rs.getDouble(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7)));
                 count++;
             }
-            // plugin.getLogger().info("[Homes] Loaded " + count + " homes!");
+            // plugin.getLogger().info("Loaded " + count + " homes!");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -166,9 +166,9 @@ public class MySQL extends DataSource {
                         rs.getDouble(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7)));
                 count++;
             }
-            // plugin.getLogger().info("[Homes] Loaded " + count + " homes!");
+            // plugin.getLogger().info("Loaded " + count + " homes!");
         } catch(SQLException ex) {
-            plugin.getLogger().info("[Homes] Error getting savehomes!");
+            plugin.getLogger().info("Error getting savehomes!");
             ex.printStackTrace();
         } finally {
             try {
@@ -198,11 +198,11 @@ public class MySQL extends DataSource {
                 sh = new SaveHome(rs.getInt(8), rs.getString(1), rs.getString(9), rs.getDouble(2), rs.getDouble(3),
                         rs.getDouble(4), rs.getFloat(5), rs.getFloat(6), rs.getString(7));
             } else {
-                plugin.getLogger().info("[Homes] No home found by that ID!");
+                plugin.getLogger().info("No home found by that ID!");
             }
 
         } catch (Exception e) {
-            plugin.getLogger().info("[Homes] Error using id:'" + savehomeid + "' of player '" + player + "' error: ");
+            plugin.getLogger().info("Error using id:'" + savehomeid + "' of player '" + player + "' error: ");
             e.printStackTrace();
         } finally {
             try {
@@ -240,7 +240,7 @@ public class MySQL extends DataSource {
                 savehomes.add(sh);
             }
         } catch (Exception e) {
-            plugin.getLogger().info("[Homes] Error listing homes of player "+player+"!");
+            plugin.getLogger().info("Error listing homes of player "+player+"!");
             e.printStackTrace();
         } finally {
             try {
@@ -310,7 +310,7 @@ public class MySQL extends DataSource {
             st.setString(8, savehome.getDescription());
             st.executeUpdate();
 
-            plugin.getLogger().info("[Homes] "+player+" saved a home! '"+savehome.getDescription()+"'");
+            plugin.getLogger().info(""+player+" saved a home! '"+savehome.getDescription()+"'");
         } catch (Exception e) {
             plugin.getLogger().info("homes: Error saving '" + savehome.getDescription() + "' of player '" + player + "' error: ");
             e.printStackTrace();
